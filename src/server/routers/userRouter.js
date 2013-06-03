@@ -2,14 +2,20 @@ const express = require('express');
 const router = express.Router();
 
 //import Module Controllers
-const { createUser, updateUserById, viewUsers, viewUserById, deleteUser } = require('../controllers/user');
-//import the validators
-const { userValidation, userIdValidation, updateValidation } = require('../helpers/validation');
+const { signUp, logIn, updateUserById, viewUsers, viewUserById, deleteUser } = require('../controllers/user');
 
-router.route('/').get(viewUsers);
-router.route('/:userId').get(userIdValidation, viewUserById);
-router.route('/').post(userValidation, createUser);
-router.route('/:userId').patch(userIdValidation, updateValidation, updateUserById);
-router.route('/:userId').delete(userIdValidation, deleteUser);
+//import the validators
+const { validation, userIdValidation } = require('../helpers/validation');
+const { userValidSchema, optionalUserValidSchema } = require('../helpers/schemas/profile');
+//import authentication module 
+const {authenticate} = require('../helpers/auth')
+
+
+router.route('/').get(authenticate,viewUsers);
+router.route('/signup').post(authenticate,validation(userValidSchema), signUp);
+router.route('/login').get(validation(optionalUserValidSchema), logIn);
+router.route('/:userId').get(authenticate,userIdValidation, viewUserById);
+router.route('/:userId').patch(authenticate,userIdValidation, validation(optionalUserValidSchema), updateUserById);
+router.route('/:userId').delete(authenticate,userIdValidation, deleteUser);
 
 module.exports = router;

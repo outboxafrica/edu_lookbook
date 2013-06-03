@@ -1,7 +1,9 @@
 const User = require('../models/userModel');
+const bcrypt = require('bcrypt');
+const { signToken } = require('../helpers/auth');
 
 module.exports = {
-	createUser     : async (req, res) => {
+	signUp         : async (req, res) => {
 		//creating a User
 		try {
 			const user = await User.findOne({ username: req.body.username });
@@ -11,11 +13,30 @@ module.exports = {
 			} else {
 				const NewUser = new User(req.body);
 				const savedUser = await NewUser.save();
-				res.status(200).json({ Message: 'Successfully Added A New User', User: savedUser });
+				const token = signToken(savedUser);
+				res.status(200).json({ Message: 'Successfully Added A New User', Token: token });
 			}
 		} catch (err) {
 			//throw Error
 			res.status(404).json({ Error: 'Something went Wrong', err });
+		}
+	},
+	logIn          : async (req, res) => {
+		let login_password = req.body.password;
+		let login_username = req.body.username;
+		try {
+			//check whether the user exits
+			const user = await User.findOne({ username: login_username });
+			//compare passwords using Bcrypt
+			const result = await bcrypt.compare(login_password, user.password);
+			if (result == true) {
+				const token = signToken(user);
+				res.status(200).json({ Message: 'Logged in successfully', Token: token });
+			} else {
+				res.status(404).json({ Error: 'Invalid Password Entered' });
+			}
+		} catch (err) {
+			res.status(404).json({ Error: 'User doesnot Exist >> Please SignUp first', err });
 		}
 	},
 	updateUserById : async (req, res) => {
