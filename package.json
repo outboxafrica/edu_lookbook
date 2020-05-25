@@ -1,0 +1,25 @@
+{
+  "name": "edu_lookbook",
+  "version": "1.0.0",
+  "description": "- A place where all edu profiles can be stored and accessed.",
+  "main": "src/index.js",
+  "engines": {
+    "node": "13.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "EDU Tech Team",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-promise-router": "^3.0.3",
+    "mongoose": "^5.9.14"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
