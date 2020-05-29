@@ -29,6 +29,10 @@ const Profile = new Schema({
     type: String,
     required: false,
   },
+  github: {
+    type: String,
+    required: false,
+  },
   projects: {
     type: Array,
     required: false,

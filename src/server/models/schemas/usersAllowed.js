@@ -5,6 +5,11 @@ const UsersAllowed = new Schema({
     type: String,
     required: true,
   },
+  allowed: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
   allowed_by: {
     type: String,
     required: true,
