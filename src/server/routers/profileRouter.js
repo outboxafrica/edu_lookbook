@@ -1,6 +1,18 @@
-const router = require("express-promise-router")();
-const { createUserProfile,deleteUserProfile } = require("../controllers/profile");
+const express = require('express');
+const router = express.Router();
+//importing the ProfileController
+const {
+	createUserProfile,
+	viewUserProfileById,
+	viewUserProfiles,
+	updateUserProfile,
+	deleteUserProfile
+} = require('../controllers/profile');
 
-router.route("/").post(createUserProfile);
-router.route("/:userId").delete(deleteUserProfile); 
+router.route('/').get(viewUserProfiles);
+router.route('/').post(createUserProfile);
+router.route('/:profileId').get(viewUserProfileById);
+router.route('/:profileId').patch(updateUserProfile);
+router.route('/:profileId').delete(deleteUserProfile);
+
 module.exports = router;
