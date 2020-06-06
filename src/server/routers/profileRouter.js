@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-const router = require("express-promise-router")();
-const { createUserProfile,deleteUserProfile } = require("../controllers/profile");
 
-router.route("/").post(createUserProfile);
-router.route("/:userId").delete(deleteUserProfile); 
-=======
 const express = require('express');
 const router = express.Router();
+
 //importing the ProfileController
+const { validate } =require('../helpers/validations')
 const {
 	createUserProfile,
 	viewUserProfileById,
@@ -16,10 +12,11 @@ const {
 	deleteUserProfile
 } = require('../controllers/profile');
 
-router.route('/').get(viewUserProfiles);
-router.route('/').post(createUserProfile);
-router.route('/:profileId').get(viewUserProfileById);
-router.route('/:profileId').patch(updateUserProfile);
 
->>>>>>> 2c91220... ft(add: users crud operations)
+router.route('/').get( viewUserProfiles);
+router.route('/').post(validate, createUserProfile);
+router.route('/:profileId').get( viewUserProfileById);
+router.route('/:profileId').patch( updateUserProfile);
+router.route('/:profileId').delete( deleteUserProfile);
+
 module.exports = router;
