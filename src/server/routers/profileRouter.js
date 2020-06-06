@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 //importing the ProfileController
-const { validate, checkParamsInPut } =require('../helpers/validations')
+const { validate } =require('../helpers/validations')
 const {
 	createUserProfile,
 	viewUserProfileById,
@@ -15,8 +15,8 @@ const {
 
 router.route('/').get( viewUserProfiles);
 router.route('/').post(validate, createUserProfile);
-router.route('/:profileId').get( checkParamsInPut, viewUserProfileById);
-router.route('/:profileId').patch(checkParamsInPut, updateUserProfile);
-router.route('/:profileId').delete(checkParamsInPut, deleteUserProfile);
+router.route('/:profileId').get(viewUserProfileById);
+router.route('/:profileId').patch(updateUserProfile);
+router.route('/:profileId').delete(deleteUserProfile);
 
 module.exports = router;
