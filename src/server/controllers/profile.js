@@ -16,6 +16,7 @@ module.exports = {
 			}
 		} catch (err) {
 			//throw an error
+			console.log(err);
 			res.status(403).json({ Message: 'Something Went Wrong >> Unable to create Profile', Error: err });
 		}
 	},
@@ -23,11 +24,11 @@ module.exports = {
 		// To View User Profiles
 		try {
 			//Get all Profiles
-			const profile = await Profile.findOne({_id: req.params.profileId });
-			if(profile){
-				res.status(200).json({profile:profile});
-			}else{
-				res.status(404).json({Message:'profile Not Found'});
+			const profile = await Profile.findOne({ _id: req.params.profileId });
+			if (profile) {
+				res.status(200).json({ profile: profile });
+			} else {
+				res.status(404).json({ Message: 'profile Not Found' });
 			}
 		} catch (err) {
 			//throw an error if anything goes wrong
