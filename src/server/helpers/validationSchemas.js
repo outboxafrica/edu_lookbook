@@ -5,8 +5,8 @@ module.exports = {
 		username           : Joi.string().required(),
 		email              : Joi.array().items(
 			Joi.string().regex(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/).required()
-		),
-		phone              : Joi.array().items(Joi.string().regex(/[0-9+]/).required()),
+		).required(),
+		phone              : Joi.array().items(Joi.string().regex(/([0-9+]{8,}$)/).required()).required(),
 		organisation       : Joi.array().required(),
 		linkedin           : Joi.string(),
 		facebook           : Joi.string(),
@@ -26,7 +26,7 @@ module.exports = {
 		email              : Joi.array().items(
 			Joi.string().regex(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/).required()
 		),
-		phone              : Joi.array().items(Joi.string().regex(/[0-9+]/).required()),
+		phone              : Joi.array().items(Joi.string().regex(/([0-9+]{8,}$)/).required()),
 		organisation       : Joi.array(),
 		linkedin           : Joi.string(),
 		facebook           : Joi.string(),

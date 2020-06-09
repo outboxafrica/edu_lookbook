@@ -55,9 +55,17 @@ module.exports = {
 	},
 	updateUserProfile   : async (req, res) => {
 		// To Update a User Profile
+
 		try {
-			const profile = await Profile.findOneAndUpdate({ _id: req.params.profileId }, { $set: req.body });
-			res.status(200).json({ Message: `${profile.username}'s Profile has been Updated` });
+			//check whether the Username passed in the request body is already existent in the DB
+			const user = await Profile.findOne({ username: req.body.username });
+			if (user) {
+				res.status(403).json({ Message: 'Username provided Already Taken >> Enter Unique Username' });
+			} else {
+				//otherwise update the profile
+				const profile = await Profile.findOneAndUpdate({ _id: req.params.profileId }, { $set: req.body });
+				res.status(200).json({ Message: `${profile.username}'s Profile has been Updated` });
+			}
 		} catch (err) {
 			//Throw an error Message
 			res
