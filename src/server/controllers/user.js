@@ -21,12 +21,19 @@ module.exports = {
 	updateUserById : async (req, res) => {
 		// updating the User by id
 		try {
-			//check for the User
-			const user = await User.findOneAndUpdate({ _id: req.params.userId },{$set:req.body});
-			if (user) {
-				res.status(200).json({Message:`${user.username} has been successfully Updated`})
+			//Check whether the Username is already existent in the DB
+			const username = await User.findOne({ username: req.body.username });
+			if (username) {
+				//throw an error
+				res.status(403).json({ Error: 'Username Provided is Already Taken >> Enter Unique username' });
 			} else {
-				res.status(404).json({ Error: 'Something Went Wrong >>> User of Given ID was Not Found' });
+				//check for the User
+				const user = await User.findOneAndUpdate({ _id: req.params.userId }, { $set: req.body });
+				if (user) {
+					res.status(200).json({ Message: `${user.username} has been successfully Updated` });
+				} else {
+					res.status(404).json({ Error: 'Something Went Wrong >>> User of Given ID was Not Found' });
+				}
 			}
 		} catch (err) {
 			//throw Error
