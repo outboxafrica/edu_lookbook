@@ -17,7 +17,7 @@ const Profile = new Schema({
     type: Array,
     required: true,
   },
-  linkenin: {
+  linkedin: {
     type: String,
     required: false,
   },

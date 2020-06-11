@@ -1,20 +1,37 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-//importing the ProfileController
-const { validate } =require('../helpers/validations')
+//importing the validation scehmas
 const {
-	createUserProfile,
-	viewUserProfileById,
-	viewUserProfiles,
-	updateUserProfile,
-	deleteUserProfile
-} = require('../controllers/profile');
+  profileSchema,
+  optionalSchema,
+  profileIdSchema,
+} = require("../helpers/validationSchemas/validationSchemas");
 
-router.route('/').get( viewUserProfiles);
-router.route('/').post(validate, createUserProfile);
-router.route('/:profileId').get(viewUserProfileById);
-router.route('/:profileId').patch(updateUserProfile);
-router.route('/:profileId').delete(deleteUserProfile);
+//import the validation functions
+const { validateParams, validateBody } = require("../helpers/validation");
 
+const {
+  createUserProfile,
+  viewUserProfileById,
+  viewUserProfiles,
+  updateUserProfile,
+  deleteUserProfile,
+} = require("../controllers/profile");
+
+router.route("/").get(viewUserProfiles);
+router.route("/").post(validateBody(profileSchema), createUserProfile);
+router
+  .route("/:profileId")
+  .get(validateParams(profileIdSchema), viewUserProfileById);
+router
+  .route("/:profileId")
+  .patch(
+    validateParams(profileIdSchema),
+    validateBody(optionalSchema),
+    updateUserProfile
+  );
+router
+  .route("/:profileId")
+  .delete(validateParams(profileIdSchema), deleteUserProfile);
 module.exports = router;
