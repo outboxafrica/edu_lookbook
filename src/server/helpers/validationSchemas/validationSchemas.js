@@ -6,6 +6,7 @@ module.exports = {
     email: Joi.array()
       .items(
         Joi.string()
+        .lowercase()
           .regex(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/)
           .required()
       )
