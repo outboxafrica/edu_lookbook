@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = { 
   validateBody: (schema) => {
     return (req, res, next) => {
       const result = schema.validate(req.body);
@@ -18,7 +18,7 @@ module.exports = {
           Message: "Invalid profile ID provided",
           Error: result.error.details[0].message,
         });
-      } else {
+      } else { 
         next();
       }
     };
