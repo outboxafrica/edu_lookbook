@@ -83,7 +83,7 @@ module.exports = {
 			const user = await User.findOne({ _id: req.params.userId });
 			if (user) {
 				//No Users
-				res.status(200).json({ User: user });
+				res.status(200).json({ User: user});
 			} else {
 				//display Users
 				res.status(404).json({ Error: 'No User of given ID was Found' });
