@@ -6,7 +6,7 @@ module.exports = {
     email: Joi.array()
       .items(
         Joi.string()
-        .lowercase()
+          .lowercase()
           .regex(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/)
           .required()
       )
@@ -45,12 +45,27 @@ module.exports = {
         .regex(/([0-9+]{8,}$)/)
         .required()
     ),
-    organisation: Joi.array(),
+    organisation: Joi.array().items(
+      Joi.object({
+        name: Joi.string().required(),
+        position: Joi.string().required(),
+        date: Joi.date().required(),
+      })
+    ),
     linkedin: Joi.string(),
     facebook: Joi.string(),
     twitter: Joi.string(),
     github: Joi.string(),
-    projects: Joi.array(),
+    projects: Joi.array().items(
+      Joi.object({
+        name: Joi.string().required(),
+        url: Joi.string().required(),
+        git_url: Joi.string().required(),  
+        type: Joi.string().required(),
+        description: Joi.string().required(),
+        technologies: Joi.array().items(Joi.string()),
+      })
+    ),
     skills: Joi.array(),
     photo: Joi.array(),
     address: Joi.array(),
@@ -64,3 +79,4 @@ module.exports = {
     profileId: Joi.string().regex(/[a-zA-Z0-9]{24}/),
   }),
 };
+ 
