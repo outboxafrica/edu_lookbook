@@ -60,7 +60,7 @@ module.exports = {
       Joi.object({
         name: Joi.string().required(),
         url: Joi.string().required(),
-        git_url: Joi.string().required(),  
+        git_url: Joi.string().required(),
         type: Joi.string().required(),
         description: Joi.string().required(),
         technologies: Joi.array().items(Joi.string()),
@@ -79,4 +79,3 @@ module.exports = {
     profileId: Joi.string().regex(/[a-zA-Z0-9]{24}/),
   }),
 };
- 
