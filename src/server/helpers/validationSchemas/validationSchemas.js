@@ -18,12 +18,27 @@ module.exports = {
           .required()
       )
       .required(),
-    organisation: Joi.array().required(),
+      organisation: Joi.array().items(
+        Joi.object({
+          name: Joi.string().required(),
+          position: Joi.string().required(),
+          date: Joi.date().required(),
+        })
+      ).required(),
     linkedin: Joi.string(),
     facebook: Joi.string(),
     twitter: Joi.string(),
     github: Joi.string(),
-    projects: Joi.array(),
+    projects: Joi.array().items(
+      Joi.object({
+        name: Joi.string().required(),
+        url: Joi.string().required(),
+        git_url: Joi.string().required(),
+        type: Joi.string().required(),
+        description: Joi.string().required(),
+        technologies: Joi.array().items(Joi.string().required()),
+      })
+    ),
     skills: Joi.array().required(),
     photo: Joi.array(),
     address: Joi.array().required(),
