@@ -18,15 +18,49 @@ module.exports = {
           .required()
       )
       .required(),
-    organisation: Joi.array().required(),
+    organisation: Joi.array()
+      .items(
+        Joi.object({
+          name: Joi.string().required(),
+          position: Joi.string().required(),
+          date: Joi.string().required(),
+        })
+      )
+      .required(),
     linkedin: Joi.string(),
     facebook: Joi.string(),
     twitter: Joi.string(),
     github: Joi.string(),
-    projects: Joi.array(),
-    skills: Joi.array().required(),
+    projects: Joi.array().items(
+      Joi.object({
+        name: Joi.string().required(),
+        url: Joi.string().required(),
+        role: Joi.string().required(),
+        git_url: Joi.string().required(),
+        type: Joi.string().required(),
+        description: Joi.string().required(),
+        technologies: Joi.array().items(Joi.string()),
+      })
+    ),
+    skills: Joi.array()
+      .items(
+        Joi.object({
+          name: Joi.string().required(),
+          proficiency: Joi.string().required(),
+          favorite: Joi.boolean().required(),
+        })
+      )
+      .required(),
     photo: Joi.array(),
-    address: Joi.array().required(),
+    address: Joi.array()
+      .items(
+        Joi.object({
+          country: Joi.string().required(),
+          state: Joi.string().required(),
+          address_line: Joi.string().required(),
+        })
+      )
+      .required(),
     strength: Joi.string().required(),
     current_engagement: Joi.string(),
     topics_of_interest: Joi.array().required(),
@@ -63,15 +97,27 @@ module.exports = {
         git_url: Joi.string().required(),
         type: Joi.string().required(),
         description: Joi.string().required(),
-        technologies: Joi.array().items(Joi.string()),
+        technologies: Joi.array().items(Joi.string()).required(),
       })
     ),
-    skills: Joi.array(),
-    photo: Joi.array(),
-    address: Joi.array(),
+    skills: Joi.array().items(
+      Joi.object({
+        name: Joi.string().required(),
+        proficiency: Joi.string().required(),
+        favorite: Joi.boolean().required(),
+      })
+    ),
+    photo: Joi.array().items(Joi.string()),
+    address: Joi.array().items(
+      Joi.object({
+        country: Joi.string().required(),
+        state: Joi.string().required(),
+        address_line: Joi.string().required(),
+      })
+    ),
     strength: Joi.string(),
     current_engagement: Joi.string(),
-    topics_of_interest: Joi.array(),
+    topics_of_interest: Joi.array().items(Joi.string()).required(),
     portfolio: Joi.string(),
   }),
 
