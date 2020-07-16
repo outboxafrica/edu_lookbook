@@ -5,8 +5,8 @@ const router = express.Router();
 const { signUp, logIn, updateUserById, viewUsers, viewUserById, deleteUser } = require('../controllers/user');
 
 //import the validators
-const { validation, userIdValidation } = require('../helpers/validation');
-const { userValidSchema, optionalUserValidSchema } = require('../helpers/schemas/profile');
+const { validation, userIdValidation } = require('../helpers/userValidation');
+const { userValidSchema, optionalUserValidSchema } = require('../helpers/schemas/user');
 //import authentication module
 const { authenticate } = require('../helpers/auth');
 

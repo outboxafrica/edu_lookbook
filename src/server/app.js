@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 //const accountsRouter = require('./routers/accounts');
-const usersRouter = require('./routers/userRouter');
+//const usersRouter = require('./routers/userRouter');
+//const accountsRouter = require("./routers/accounts");
+const profileRouter = require('./routers/profileRouter');
 
 const app = express();
 app.use(bodyParser.json());
@@ -12,7 +14,8 @@ app.use(function(req, res, next) {
 	next();
 });
 
-//app.use("/api/profiles", accountsRouter);
-app.use('/api/users', usersRouter);
+
+//app.use('/api/users', usersRouter);
+app.use('/api/profiles', profileRouter);
 
 module.exports = app;

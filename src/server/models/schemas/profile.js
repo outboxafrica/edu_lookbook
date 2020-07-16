@@ -1,4 +1,4 @@
-const { Schema } = required("mongoose");
+const { Schema } = require("mongoose");
 
 const Profile = new Schema({
   username: {
@@ -17,7 +17,7 @@ const Profile = new Schema({
     type: Array,
     required: true,
   },
-  linkenin: {
+  linkedin: {
     type: String,
     required: false,
   },
