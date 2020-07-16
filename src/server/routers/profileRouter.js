@@ -5,7 +5,7 @@ const router = express.Router();
 //importing the ProfileController
 const {
   optionalSchema, profileIdSchema,profileSchema
-} = require("../helpers/validationSchemas/validationSchemas");
+} = require("../helpers/schemas/validationSchemas");
 const {
 	createUserProfile,
 	viewUserProfileById,
@@ -14,7 +14,7 @@ const {
 	deleteUserProfile
 } = require('../controllers/profile');
 //Importing Validation modules
-const {validateBody,validateParams} = require('../helpers/validation')
+const {validateBody,validateParams} = require('../helpers/profileValidation')
 
 router.route('/').get(viewUserProfiles);
 router.route('/').post(validateBody(profileSchema),createUserProfile);
