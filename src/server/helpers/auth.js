@@ -25,7 +25,7 @@ module.exports = {
 	},
 	signToken    : (user) => {
 		const token = JWT.sign(
-			{ id: user._id, username: user.username, firstName: user.firstName, otherName: user.otherName },
+			{ id: user._id, username: user.username, firstName: user.firstName, otherName: user.otherName,canEdit:user.canEdit,userLevel:user.userLevel},
 			process.env.SECRET,
 			{ expiresIn: '24hr' }
 		);
