@@ -98,7 +98,7 @@ module.exports = {
 		//check for current user
 		const currentUser = await req.headers.authorization
 		const tokenArray = jwt.decode(currentUser.split(' ')[1])
-		if(!tokenArray.canEdit) return res.status(400).send("Request for Permission to Delete")
+		if(tokenArray.userLevel != 2 && !tokenArray.canEdit) return res.status(400).send("Request for Permission to Delete")
 		//delete User
 		try {
 			const user = await User.findOneAndDelete({ _id: req.params.userId });
