@@ -1,7 +1,15 @@
 const { Schema } = require("mongoose");
 
 const Profile = new Schema({
+  user_id: {
+    type: String,
+    required: true,
+  },
   username: {
+    type: String,
+    required: true,
+  },
+  cohort: {
     type: String,
     required: true,
   },
