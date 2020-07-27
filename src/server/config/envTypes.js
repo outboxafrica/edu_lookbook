@@ -1,5 +1,5 @@
 module.exports = {
   DEVELOPMENT: "development",
-  PRODUCTOIN: "production",
+  PRODUCTION: "production",
   LOCAL: "local",
 };
