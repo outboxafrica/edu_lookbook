@@ -1,8 +1,8 @@
 const Joi = require("@hapi/joi");
 
 module.exports = {
-  profileSchema: Joi.object().keys({
-    username: Joi.string().required(),
+  NewProfile: Joi.object().keys({
+    cohort: Joi.string().required(),
     email: Joi.array()
       .items(
         Joi.string()
@@ -67,8 +67,8 @@ module.exports = {
     portfolio: Joi.string(),
   }),
 
-  optionalSchema: Joi.object().keys({
-    username: Joi.string(),
+  UpdateProfile: Joi.object().keys({
+    cohort: Joi.string(),
     email: Joi.array().items(
       Joi.string()
         .regex(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/)
@@ -117,7 +117,7 @@ module.exports = {
     ),
     strength: Joi.string(),
     current_engagement: Joi.string(),
-    topics_of_interest: Joi.array().items(Joi.string()).required(),
+    topics_of_interest: Joi.array().items(Joi.string()),
     portfolio: Joi.string(),
   }),
 

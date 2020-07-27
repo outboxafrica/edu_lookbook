@@ -1,20 +1,19 @@
-const express = require('express');
-const router = express.Router();
+const router = require("express-promise-router")();
 
 //import Module Controllers
-const { signUp, logIn, updateUserById, viewUsers, viewUserById, deleteUser } = require('../controllers/user');
+const { SignUp, LogIn, Update, View } = require("../controllers/user");
 
 //import the validators
-const { validation, userIdValidation } = require('../helpers/validation');
-const { userValidSchema, optionalUserValidSchema } = require('../helpers/schemas/profile');
-//import authentication module
-const { authenticate } = require('../helpers/auth');
+const { validateBody, authenticate } = require("../helpers/validation");
+const {
+  SignUpSchema,
+  LoginSchema,
+  UpdateSchema,
+} = require("../helpers/schemas/users");
 
-router.route('/').get(authenticate, viewUsers);
-router.route('/signup').post(validation(userValidSchema), signUp);
-router.route('/login').get(validation(optionalUserValidSchema), logIn);
-router.route('/:userId').get([ authenticate, userIdValidation ], viewUserById);
-router.route('/:userId').patch([ authenticate, userIdValidation, validation(optionalUserValidSchema) ], updateUserById);
-router.route('/:userId').delete([ authenticate, userIdValidation ], deleteUser);
+router.route("").get(authenticate, View);
+router.route("/signup").post(validateBody(SignUpSchema), SignUp);
+router.route("/login").post(validateBody(LoginSchema), LogIn);
+router.route("").patch([authenticate, validateBody(UpdateSchema)], Update);
 
 module.exports = router;
