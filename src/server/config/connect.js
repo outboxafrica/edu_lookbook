@@ -16,7 +16,7 @@ switch (process.env.NODE_ENV) {
   default:
     DB_URL = process.env.DB_URL;
 }
-
+console.log("Establishing Database Connection . . . ");
 mongoose
   .connect(DB_URL, {
     useNewUrlParser: true,
