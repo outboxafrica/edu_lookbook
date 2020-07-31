@@ -1,4 +1,4 @@
-const Profile = require("../models/profileModel");
+const Profile = require("../models/profile");
 const StatusCodes = require("http-status-codes");
 
 module.exports = {
