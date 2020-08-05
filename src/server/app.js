@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const usersRouter = require("./routers/userRouter");
 const profileRouter = require("./routers/profileRouter");
+const likesRouter = require("./routers/likesRoute")
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,5 +18,6 @@ app.use(function (req, res, next) {
 
 app.use("/api/users", usersRouter);
 app.use("/api/profiles", profileRouter);
+app.use("/api/likes", likesRouter);
 
 module.exports = app;
