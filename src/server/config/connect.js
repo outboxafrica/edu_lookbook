@@ -16,21 +16,26 @@ switch (process.env.NODE_ENV) {
   default:
     DB_URL = process.env.DB_URL;
 }
-console.log("Establishing Database Connection . . . ");
-mongoose
-  .connect(DB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-  })
-  .then(() => {
-    console.info("DB Connection Status: ", "Connection Established!");
-  })
-  .catch((err) => {
-    console.log("DB Connnection Status: ", "Connection Failed!");
-    console.error("Error Details: ", err);
-  });
+function establishConnection() {
+  console.log("\nEstablishing Database Connection . . . ");
+  mongoose
+    .connect(DB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+    })
+    .then(() => {
+      console.info("\nDatabase Connection Established!");
+    })
+    .catch((err) => {
+      console.log("\nDatabase Connection Failed!");
+      console.error("Error Details: ", err);
+      console.log("\n\nDatabase Connection Failed, Retrying . . .");
+      establishConnection();
+    });
+}
 
+establishConnection();
 const db = mongoose.connection;
 module.exports = db;
