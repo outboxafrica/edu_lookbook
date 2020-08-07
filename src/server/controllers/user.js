@@ -31,15 +31,21 @@ module.exports = {
     try {
       //check whether the user exits
       const user = await User.findOne({ username: req.body.username });
-      //compare passwords using Bcrypt
-      const result = await bcrypt.compare(req.body.password, user.password);
-      if (result) {
-        const token = signToken(user);
-        return res.status(200).json({ token });
+      if (user) {
+        //compare passwords using Bcrypt
+        const result = await bcrypt.compare(req.body.password, user.password);
+        if (result) {
+          const token = signToken(user);
+          return res.status(200).json({ token });
+        } else {
+          return res
+            .status(StatusCodes.BAD_REQUEST)
+            .json({ error: "Invalid password, retry with correct password!" });
+        }
       } else {
         return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ error: "Invalid username or password!" });
+          .status(StatusCodes.NOT_FOUND)
+          .json({ error: "No such user exists!" });
       }
     } catch (err) {
       console.log("Error while loging in: ", err);
