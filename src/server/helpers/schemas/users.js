@@ -2,7 +2,10 @@ const Joi = require("@hapi/joi");
 
 module.exports = {
   SignUpSchema: Joi.object().keys({
-    username: Joi.string().required(),
+    username: Joi.string()
+      .lowercase()
+      .regex(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/)
+      .required(),
     firstName: Joi.string().min(1).required(),
     otherName: Joi.string().min(1).required(),
     middleName: Joi.string(),
