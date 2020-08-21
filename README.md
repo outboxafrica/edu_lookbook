@@ -11,32 +11,31 @@
 
 ## Main Files: Project Structure
 ```bash
-     |-- src',
-'        |-- index.js' ** the main driver of the app,
-'        |-- server',
-'            |-- app.js',
-'            |-- config',
-'            |   |-- connect.js',
-'            |-- controllers',
-'            |   |-- profile.js',
-'            |   |-- user.js',
-'            |-- helpers',
-'            |   |-- auth.js',
-'            |   |-- userValidation.js',
-'            |   |-- profileValidation.js',
-'            |   |-- schemas',
-'            |       |-- user.js',
-'            |       |-- profile.js',
-'            |-- models',
-'            |   |-- profileModel.js',
-'            |   |-- userModel.js',
-'            |   |-- schemas',
-'            |       |-- profile.js',
-'            |       |-- user.js',
-'            |       |-- usersAllowed.js',
-'            |-- routers',
-'                |-- profileRouter.js',
-'                |-- userRouter.js'
+     |-- src
+        |-- index.js' ** the main driver of the app'
+        |-- server
+            |-- app.js
+            |-- config
+            |   |-- connect.js
+            |   |-- envTypes.js
+            |-- controllers
+            |   |-- profile.js
+            |   |-- user.js
+            |-- helpers
+            |   |-- validation.js
+            |   |-- schemas
+            |       |-- profiles.js
+            |       |-- users.js
+            |-- models
+            |   |-- profile.js
+            |   |-- user.js
+            |   |-- schemas
+            |       |-- profile.js
+            |       |-- user.js
+            |       |-- usersAllowed.js
+            |-- routers
+                |-- profileRouter.js
+                |-- userRouter.js
 
 ```
 
@@ -46,6 +45,7 @@
 * PORT -- `server port number`
 * DB_URL -- `database URL`
 * SECRET -- `Secret key for verifying the token`
+* NODE_ENV -- `Specifies the Server environment (development, local, production)`
 
 ## Usage
 1. `clone` this repository.
@@ -94,8 +94,8 @@
 
    ```javascript
         {
-            Message: "Successfully Added A New User",
-            Token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXV
+            Message: "User account succesfully created!",
+            token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXV
             CJ9eyJpZCI6IjVmMGYwY2UxZmZjNTQ1MGI
             3YzllMzk4OSIsI"
         }
@@ -104,13 +104,13 @@
  
 * **Error Response:**
 
-  * **Status:** 400 BAD REQUEST <br />
-    **Content:** `{ "Error": "The User Already Exists" }`
+  * **Status:** 409 CONFLICT <br />
+    **Content:** `{ "Error": "User Already Exists" }`
 
   OR
 
-  * **Status:** 404 NOT FOUND <br />
-    **Content:** `{  Error: 'Something went Wrong', err  }`
+  * **Status:** 417 EXPECTATION_FAILED <br />
+    **Content:** `{  Error: 'Server error occured, user account creation failed!'}`
 
 <br/>
 <br/>
@@ -127,11 +127,7 @@
     ```javascript
         {
             "username"    : "me@gmail.com",
-            "method"      : "Local-auth",
-            "firstName"   : "mefirst",
-            "otherName"   : "meOther",
-            "password"    : "mePassword",
-            "userLevel"   :"1"
+            "password"    : "mePassword"
         }
     ```  
   
@@ -146,11 +142,10 @@
      **Sample Content:**
 
    ```javascript
-        {
-            Message: "Logged in successfully",
-            Token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXV
-            CJ9eyJpZCI6IjVmMGYwY2UxZmZjNTQ1MGI
-            3YzllMzk4OSIsI"
+       {
+          token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXV
+          CJ9eyJpZCI6IjVmMGYwY2UxZmZjNTQ1MGI
+          3YzllMzk4OSIsI"
         }
     ```  
             
@@ -158,12 +153,17 @@
 * **Error Response:**
 
   * **Status:** 400 BAD REQUEST <br />
-    **Content:** `{ Error: 'Invalid Password Entered' }`
+    **Content:** `{ error: 'Invalid password, retry with correct password!' }`
 
   OR
 
   * **Status:** 404 NOT FOUND <br />
-    **Content:** `{ Error: 'User doesnot Exist >> Please SignUp first', err }`
+    **Content:** `{ error: 'No such user exists!', err }`
+
+  OR
+
+  * **Status:** 417 EXPECTATION_FAILED <br />
+    **Content:** `{ error: 'Server error occured during login, please try again later!'}`
 
 <br/>
 <br/>
@@ -174,7 +174,7 @@
 
 | Endpoint      | Method            | Params       |Data type |
 |:------------- |:-----------------:| :-----------:|---------:|
-| `/api/users/:id`  | GET           | `required`   |string    | 
+| `/api/users/`  | GET           | `None`   |`None`    | 
 
 * **Request Body**
 
@@ -190,33 +190,21 @@
       **Sample Content:**
 
     ```javascript
+        
         {
-            "User": {
-                        "userLevel": "1",
-                        "canEdit": true,
-                        "enabled": true,
-                        "_id": "5f0f0ce1ffc5450b7c9e3989",
-                        "username": "username@gmail.com",
-                        "method": "Local-auth",
-                        "firstName": "firstname",
-                        "otherName": "",
-                        "password": "$2b$10$THygMsPR95Ub55YuJzr
-                            pResKVPk.5LPqonAMZHUQ3fre2m0V.SMGS",
-                        "__v": 0
-                    }
+          "username": "username@gmail.com",
+          "firstName": "firstname",
+          "otherName": "otherName"
         }
+        
     ```  
             
  
 * **Error Response:**
 
-  * **Status:** 404 NOT FOUND <br />
-    **Content:** `{ Error: 'No User of given ID was Found' }`
+  * **Status:** 403 FORBIDDEN <br />
+    **Content:** `{ Error: 'Something Went Wrong!' }`
 
-  OR
-
-  * **Status:** 400 BAD REQUEST <br />
-    **Content:** `{ Error: 'Token is Invalid >> Enter valid token' }`
 <br/>
 <br/>
 
@@ -226,7 +214,7 @@
 
 | Endpoint      | Method            | Params       |Data type |
 |:------------- |:-----------------:| :-----------:|---------:|
-| `/api/users/:id`  | PATCH           | `required`   |string    | 
+| `/api/users/`  | PATCH           | `None`   |`None`   | 
 
 *   **Request Body**
     > Fields are not all required since its an update
@@ -262,10 +250,6 @@
   * **Status:** 404 NOT FOUND <br />
     **Content:** `{ Error: 'Something Went Wrong >>> User of Given ID was Not Found'}`
 
-  OR
-
-  * **Status:** 403 FORBIDDEN <br />
-    **Content:** `{ Error: "Username Provided is Already Taken >> Enter Unique username"}`
 <br/>
 <br/>
 
@@ -346,7 +330,7 @@
 
    ```javascript
         {
-            Message: 'Successfully Added A Profile', Profile }
+            Message: 'Your profile was successfully created', Profile }
         }
     ```  
             
@@ -359,7 +343,7 @@
   OR
 
   * **Status:** 403 BAD REQUEST <br />
-    **Content:** `{ Message: 'Something Went Wrong >> Unable to create Profile', Error: err }`
+    **Content:** `{ error: 'An unknown server error occured while creating your profile, please retry!'}`
 
 <br/>
 <br/>
@@ -534,4 +518,4 @@
 <br/>
 
 ## Contributing
-You can help improve the code base of the application where neccessary by opening a pull request.
+You can help improve the code base of the application where neccessary by raising an issue or opening a pull request.
