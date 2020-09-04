@@ -73,6 +73,10 @@ const Profile = new Schema({
     type: String,
     required: false,
   },
+  likes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Likes'
+  }]
 });
 
 module.exports = Profile;
