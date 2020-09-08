@@ -57,6 +57,12 @@ const User = new Schema({
     type: String,
     required: false,
   },
+  followers:[{
+    type: Schema.Types.ObjectId
+  }],
+  following:[{
+    type: Schema.Types.ObjectId
+  }],
 });
 
 module.exports = User;

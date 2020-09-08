@@ -74,12 +74,66 @@ module.exports = {
     try {
       const user = await User.findOne(
         { _id: req.userID },
-        "username firstName otherName"
+        "username firstName otherName followers following"
       );
       return res.status(200).json(user);
     } catch (err) {
       //throw error
       console.log("Error while fetching user account!", err);
+      return res.status(403).json({ error: "Something Went Wrong!" });
+    }
+  },
+  follow: async (req, res) => {
+    try {
+      User.findByIdAndUpdate(
+        req.body.followId,
+        {
+          $push: { followers: req.userID },
+        },
+        { new: true },
+        async (err, result) => {
+          if (err) {
+            return res.status(403).json({ error: "Something Went Wrong!" });
+          } else {
+            const current = await User.findByIdAndUpdate(
+              req.userID,
+              {
+                $push: { following: req.body.followId },
+              },
+              { new: true }
+            );
+            res.status(200).json(current);
+          }
+        }
+      );
+    } catch (error) {
+      return res.status(403).json({ error: "Something Went Wrong!" });
+    }
+  },
+  unfollow: async (req, res) => {
+    try {
+      User.findByIdAndUpdate(
+        req.body.followId,
+        {
+          $pull: { followers: req.userID },
+        },
+        { new: true },
+        async (err, result) => {
+          if (err) {
+            return res.status(403).json({ error: "Something Went Wrong!" });
+          } else {
+            const current = await User.findByIdAndUpdate(
+              req.userID,
+              {
+                $pull: { following: req.body.followId },
+              },
+              { new: true }
+            );
+            res.status(200).json(current);
+          }
+        }
+      );
+    } catch (error) {
       return res.status(403).json({ error: "Something Went Wrong!" });
     }
   },
