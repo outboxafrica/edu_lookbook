@@ -58,10 +58,12 @@ const User = new Schema({
     required: false,
   },
   followers:[{
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }],
   following:[{
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }],
 });
 
