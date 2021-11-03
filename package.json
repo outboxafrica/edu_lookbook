@@ -23,7 +23,7 @@
     "http-status-codes": "^1.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.14",
-    "validator": "^13.1.1"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "joi": "^14.3.1",
